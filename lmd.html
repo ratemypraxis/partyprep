@@ -1,0 +1,142 @@
+<html>
+
+    <head>
+        <title>Backyard Fun</title>
+        <style>
+
+            img {
+                    max-width: 100%;
+                    max-height: 100%;
+                }
+                div {
+                    border: 2px dotted #000000;
+                }
+                .portrait {
+                    height: 100%;
+                    width: 40px;
+                }
+                .landscape {
+                    height: 100%;
+                    width: 80px;
+                }
+                .square {
+                    height: 100%;
+                    width: 100px;
+                }
+                
+                body {
+                    background-color: rgba(245, 244, 244, 0);
+                    margin: 0px;
+                    overflow: hidden;
+                }
+
+
+                #container {
+                    pointer-events: none;
+                    position: absolute;
+                    top: 0;
+                    z-index: 1; 
+                    position: absolute;
+                    background-color: transparent; 
+                 }
+ 
+
+
+                #imgInterface {
+                    background-color: #ffffff00;
+                    position: absolute;
+                    top: 50px;
+                    width: 30%;
+                    color: rgb(243, 0, 231);
+                    padding: 5px;
+                    font-family: Monospace;
+                    font-size: 13px;
+                    font-weight: bold;
+                    text-align: left;
+                    z-index: 2;
+                }
+
+
+                #textFieldInterface {
+                    background-color: #00000000;
+                    position: absolute;
+                    top: 5px;
+                    width: 30%;
+                    color: rgb(243, 0, 231);
+                    padding: 5px;
+                    font-family: Monospace;
+                    font-size: 13px;
+                    font-weight: bold;
+                    text-align: left;
+                    z-index: 1;
+                }
+
+
+
+                </style>
+            <link rel="shortcut icon" href="#">
+
+    </head>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/102/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.2.0/lib/p5.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-storage.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-database.js"></script>
+   
+
+    <script type="text/javascript" src="https://p5livemedia.itp.io/simplepeer.min.js"></script>
+    <script type="text/javascript" src="https://p5livemedia.itp.io/socket.io.js"></script>
+    <script type="text/javascript" src="https://p5livemedia.itp.io/p5livemedia.js"></script>
+
+    
+    <body>
+        <div id= "imgInterface">    
+            Image:<input type="file" size="35"  id="photo">
+            <button onclick="uploadImage()">Upload Image</button>
+            <img top="200px" id="image"/>
+        </div> 
+        <div id='container'></div>
+        <div id= "textFieldInterface">
+            Text:<input type="input" style="text-align:center;" size="35" value='Leave A Note' id="text">
+        </div>
+
+
+        </div>
+
+        
+        
+        <script src="ps.js"></script>
+        <script src="lmd.js"></script>
+
+    </body>
+
+<script>
+
+function uploadImage(){
+        const ref = firebase.storage().ref()
+
+        const file = document.querySelector("#photo").files[0]
+
+        const name = (new Date()) + '-' + file.name
+
+        const metadata = {
+            contentType:file.type
+        }
+
+         const task = ref.child(name).put(file,metadata)
+         task
+         .then(snapshot => snapshot.ref.getDownloadURL())
+         .then(url => {
+            console.log(url)
+            alert("Image Upload Successful")
+            const image = document.querySelector('#image')
+            image.src = url
+            })
+        }
+        
+
+         
+</script>
+</html>
